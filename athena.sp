@@ -22,10 +22,10 @@ public OnPluginStart()
 
 public Action:Event_Cs_Win_Panel_Round(Handle:event, const String:name[], bool:dontBroadcast)
 {
-	winningteam = GetEventInt(event, "final_event"); //8 for ct win 9 for t win 1 for target bombed 12 for defuse
-	if(winningteam==8 || winningteam==12){ctscore++;}
+	winningteam = GetEventInt(event, "final_event"); //8 for ct win 9 for t win 1 for target bombed 7 or 12  for defuse
+	if(winningteam==8 || winningteam==12 || winningteam==7){ctscore++;}
 	if(winningteam==9 || winningteam==1){tscore++;}
-	PrintToServer("******ATHENA DEBUG REPORT******\nCT score: %d T score: %d",tscore,ctscore);
+	PrintToServer("******ATHENA DEBUG REPORT******\nCT score: %d T score: %d",ctscore,tscore);
 	LogToFile("./test.log", "%d,%d",ctscore,tscore);
 }	
 
