@@ -5,7 +5,7 @@
 public Plugin:myinfo =
 {
 	name = "Athena",
-	author = "saigon",
+	author = "Saigon",
 	description = "Gamestate relaying to an online scoreboard",
 	version = "0.1.0.0",
 	url = "https://github.com/sedley/Athena"
@@ -26,6 +26,7 @@ public Action:Event_Cs_Win_Panel_Round(Handle:event, const String:name[], bool:d
 	if(winningteam==8 || winningteam==12){ctscore++;}
 	if(winningteam==9 || winningteam==1){tscore++;}
 	PrintToServer("******ATHENA DEBUG REPORT******\nCT score: %d T score: %d",tscore,ctscore);
+	LogToFile("./test.log", "%d,%d",ctscore,tscore);
 }	
 
 
