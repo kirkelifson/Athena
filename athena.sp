@@ -15,7 +15,17 @@ public OnPluginStart()
 {
 	PrintToServer("Athena loaded");
 	new tscore=0,ctscore=0;
+	HookEvent("cs_win_panel_round", Event_Cs_Win_Panel_Round)
+	PrintToServer("Athena: Win pannel hooked:);
 }
+
+public Action:Event_Cs_Win_Panel_Round(Handle:event, const String:name[], bool:dontBroadcast)
+{
+	new winningteam = GetEventInt(event, "final_event") \\8 for ct win, 9 for t win, 1 for target bombed, 12 for defuse
+	if(winningteam==8 || winningteam==12){ctscore++;}
+	if(winningteam==9 || winningteam==1){tscore++;}
+	PrintToServer("DEBUG ATHENA REPORT CTSCORE = " + ctscore + " T SCORE = " + tscore);
+}	
 
 
 
