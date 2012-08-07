@@ -11,7 +11,7 @@ public Plugin:myinfo =
 	url = "https://github.com/sedley/Athena"
 }
 
-new tscore=0,ctscore=0,outcome=0,team=0;
+new tscore,ctscore,outcome,team;
 
 public OnPluginStart()
 {
@@ -25,9 +25,9 @@ public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadc
 	team = GetEventInt(event, "winner");
 	outcome = GetEventInt(event, "reason");
 	PrintToServer("********ATHENA DEBUG MESSAGE***********\nTeam %d won for reason %d",team,outcome);
-	if(team==1){ctscore++;)
-	if(team==2){tscore++;)
-	LogToFile("./test.log", "%d,%d",ctscore,tscore);
+	if(team==3){ctscore++;}
+	if(team==2){tscore++;}
+	LogToFileEx("./test.log", "%d,%d",ctscore,tscore);
 }	
 
 
