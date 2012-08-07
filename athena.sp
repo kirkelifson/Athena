@@ -42,8 +42,8 @@ public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadc
 	new String:filename[10]="./match.log";
 	
 	// Team variables (output)
-	new String:ctstring[18]	= "COUNTERTERRORIST ";
-	new String:tstring[18]	= "TERRORIST ";
+	new String:ctstring[18]	= "COUNTERTERRORIST";
+	new String:tstring[18]	= "TERRORIST";
 	
 	// Init file handler for log
 	if(FileExists(filename)) DeleteFile(filename);
