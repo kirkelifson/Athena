@@ -1,7 +1,7 @@
 #include <sourcemod>
 #include <clients.inc>
 
-
+ 
 
 public Plugin:myinfo =
 {
