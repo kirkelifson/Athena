@@ -1,0 +1,13 @@
+body {
+	background-color: #424242;
+	color: #888888;
+	font-size: 2em;
+	font-family: verdana;
+	text-align: center;
+}
+
+td {
+	text-align: center;
+	padding: 30px;
+	padding-bottom: 0px;
+}
