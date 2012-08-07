@@ -63,7 +63,7 @@ public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadc
 	IntToString(ctscore,ctscorestring,3);
 	WriteFileString(fout,ctstring,0);
 	WriteFileString(fout,ctscorestring,0);
-	for(new i=1;i<players;i++)
+	for(new i=1;i<players+1;i++)
 	{
 		GetClientName(i,clientname,12)
 		clientdeaths=GetClientDeaths(i);
@@ -85,7 +85,7 @@ public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadc
 	}
 	WriteFileString(fout,tstring,0)
 	WriteFileString(fout, tscorestr,0)
-	for(new i=1;i<players;i++)
+	for(new i=1;i<players+1;i++)
 	{
 		GetClientName(i,clientname,12)
                 clientdeaths=GetClientDeaths(i);
