@@ -1,14 +1,14 @@
 #include <sourcemod>
 #include <clients.inc>
 
-new players,maxclients;
+new players,tscore,ctscore;
 new String:debugstring[10]="#ATHENA#\t";
 
 public Plugin:myinfo =
 {
 	name 		= "Athena",
 	author		= "Saigon",
-	description = "Gamestate relaying to an online scoreboard",
+	description	= "Gamestate relaying to an online scoreboard",
 	version		= "2.1.0.0",
 	url 		= "https://github.com/sedley/Athena"
 }
@@ -23,7 +23,6 @@ public OnPluginStart()
 public bool:OnClientConnect(client, String:rejectmsg[], maxlen)
 {
 	PrintToServer("%s Connection detected",debugstring);
-	maxclients = GetMaxClients();
 	PrintToServer("%s %d Players detected",debugstring,++players);
 	return true;
 }
@@ -36,7 +35,7 @@ public OnClientDisconnect(client)
 public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadcast)
 {
 	new String:clientname[12];
-	new tscore,ctscore,outcome,team,clientdeaths,clientfrags;
+	new outcome,team,clientdeaths,clientfrags;
 	
 	// Filename used for logging purposes
 	new String:filename[10]="./match.log";
@@ -62,35 +61,35 @@ public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadc
 
 	// COUNTERTERRORISTS {SCORE}
 	Format(temp, sizeof(temp), "%s %d\n", ctstring,ctscore);
-	WriteFileString(fout,temp,0);
+	WriteFileString(fout,temp,false);
 	
 	for(new i=1;i<=players;i++)
 	{
-		GetClientName(i,clientname,12)
+		GetClientName(i,clientname,12);
 		clientdeaths = GetClientDeaths(i);
-		clientfrags	 = GetClientFrags(i);
+		clientfrags  = GetClientFrags(i);
 		
 		if(GetClientTeam(i)==3)
 		{
-			Format(temp, sizeof(temp), "%s,%d,%d\n", clientname,clientfrags,clientdeaths); // !!!!! CHECK TO SEE IF INT WORKS
-			WriteFileString(fout,temp,0);
+			Format(temp, sizeof(temp), "%s,%d,%d\n", clientname,clientfrags,clientdeaths);
+			WriteFileString(fout,temp,false);
 		}
 	}
 	
 	// TERRORISTS {SCORE}
 	Format(temp, sizeof(temp), "%s %d\n", tstring, tscore);
-	WriteFileString(fout,temp,0);
+	WriteFileString(fout,temp,false);
 	
 	for(new i=1;i<=players;i++)
 	{
-		GetClientName(i,clientname,12)
+		GetClientName(i,clientname,12);
 		clientdeaths = GetClientDeaths(i);
 		clientfrags  = GetClientFrags(i);
 		
 		if(GetClientTeam(i)==2)
 		{
-			Format(temp, sizeof(temp), "%s,%d,%d\n", clientname,clientfrags,clientdeaths); // !!!!! CHECK TO SEE IF INT WORKS
-			WriteFileString(fout,temp,0);
+			Format(temp, sizeof(temp), "%s,%d,%d\n", clientname,clientfrags,clientdeaths);
+			WriteFileString(fout,temp,false);
 		}
 	}
 	
