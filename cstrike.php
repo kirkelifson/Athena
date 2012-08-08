@@ -53,9 +53,16 @@
   }
   fclose($log);
   ?>
-  <table border='0'>
-  <tr><td><u>Counter-Terrorists</u></td><td><span style="color: green"><? echo $ct_score ?></span></td></tr>
-  <tr><td>Player</td><td>Kills</td><td>Deaths</td></tr>
+  <table>
+  <tr>
+    <td><em>Counter-Terrorists</em></td>
+    <td id="ct_score"><? echo $ct_score ?></td>
+  </tr>
+  <tr>
+    <td>Player</td>
+    <td>Kills</td>
+    <td>Deaths</td>
+  </tr>
   <?
   foreach ($CounterTerrorists as $ct)
   {
@@ -64,9 +71,18 @@
     printf("\t</tr>\n");
   }
   ?>
-  <tr><td height="50px"></td></tr>
-  <tr><td><u>Terrorists</u></td><td><span style="color: red"><? echo $t_score ?></span></td></tr>
-  <tr><td>Player</td><td>Kills</td><td>Deaths</td></tr>
+  <tr>
+    <td height="50px"></td>
+  </tr>
+  <tr>
+    <td><em>Terrorists</em></td>
+    <td id="t_score"><? echo $t_score ?></td>
+  </tr>
+  <tr>
+    <td>Player</td>
+    <td>Kills</td>
+    <td>Deaths</td>
+  </tr>
   <?
   foreach ($Terrorists as $t)
   {
