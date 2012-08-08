@@ -9,8 +9,9 @@
   setTimeout('window.location.href=window.location.href;', 5000);
   </script>
   <?
-  $file = "match.log";
-  $log = fopen($file, 'r') or die("FILE READ ERROR");
+  error_reporting(E_ALL);
+  $file = "/opt/HLDS/css/css/cstrike/match.log";
+  $log  = fopen($file, 'r') or die("FILE READ ERROR");
   $ct_score = 0;
   $t_score  = 0;
 
@@ -28,9 +29,9 @@
     $line = fgets($log);
     if (preg_match("/COUNTERTERRORIST (.*)/", $line, $matches))
     {
-      $is_ct  = 1;
-      $is_t   = 0;
-      $ct_score=$matches[1];
+      $is_ct    = 1;
+      $is_t     = 0;
+      $ct_score =$matches[1];
     }
     elseif (preg_match("/TERRORIST (.*)/", $line, $matches))
     {
