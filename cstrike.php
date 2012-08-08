@@ -9,7 +9,7 @@
   setTimeout('window.location.href=window.location.href;', 5000);
   </script>
   <?
-  $file = "test.log";
+  $file = "match.log";
   $log = fopen($file, 'r') or die("FILE READ ERROR");
   $ct_score = 0;
   $t_score  = 0;
@@ -40,6 +40,7 @@
     }
     else
     {
+      if (empty($line)) break;
       $split  = explode(",",$line);
       $nick   = $split[0];
       $kills  = $split[1];
