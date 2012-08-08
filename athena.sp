@@ -1,8 +1,10 @@
 #include <sourcemod>
 #include <clients.inc>
 
-new players,tscore,ctscore;
-new String:debugstring[10]="#ATHENA#\t";
+new tscore,ctscore;
+new String:debugstring[10]	= "#ATHENA#\t";
+new String:ctstring[18]		= "COUNTERTERRORIST";
+new String:tstring[18]		= "TERRORIST";
 
 public Plugin:myinfo =
 {
@@ -15,83 +17,74 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	PrintToServer("Athena loaded");
+	PrintToServer("%s Plugin loaded",debugstring);
 	HookEvent("round_end", Event_Round_End);
-	PrintToServer("Athena: Round Hooked");
+	HookEvent("player_death", Event_PlayerDeath, EventHookMode_Pre);
+	PrintToServer("%s Round End + Player Death Hooked",debugstring);
 }
 
-public bool:OnClientConnect(client, String:rejectmsg[], maxlen)
-{
-	PrintToServer("%s Connection detected",debugstring);
-	PrintToServer("%s %d Players detected",debugstring,++players);
-	return true;
-}
-
-public OnClientDisconnect(client)
-{
-	if(players!=0) players--;
-}
-
-public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadcast)
-{
-	new String:clientname[12];
-	new outcome,team,clientdeaths,clientfrags;
-	
-	// Filename used for logging purposes
-	new String:filename[10]="./match.log";
-	
-	// Team variables (output)
-	new String:ctstring[18]	= "COUNTERTERRORIST";
-	new String:tstring[18]	= "TERRORIST";
-	
-	// Init file handler for log
-	if(FileExists(filename)) DeleteFile(filename);
-	new Handle:fout=OpenFile(filename,"w");
+public updateScores(counterscore,terrscore){
+	new String:filename[10] = "./match.log";
 	
 	// Temporary string buffer used to format log strings
 	new String:temp[255]="";
-
-	team 	= GetEventInt(event,"winner");
-	outcome = GetEventInt(event,"reason");
-	PrintToServer("%s Team %d won for reason %d",debugstring,team,outcome);
-
-	// Add to overall team score
-	if(team==3) ctscore++;
-	if(team==2) tscore++;
-
+	
+	// Init file handler for log
+	new Handle:fout=OpenFile(filename,"w");
+	
 	// COUNTERTERRORISTS {SCORE}
-	Format(temp, sizeof(temp), "%s %d\n", ctstring,ctscore);
+	Format(temp, sizeof(temp), "%s %d\n",ctstring,counterscore);
 	WriteFileString(fout,temp,false);
 	
-	for(new i=1;i<=players;i++)
+	new clientdeaths,clientfrags;
+	new String:clientname[50];
+	
+	for(new i=1;i<=GetClientCount()+1;i++)
 	{
-		GetClientName(i,clientname,12);
-		clientdeaths = GetClientDeaths(i);
-		clientfrags  = GetClientFrags(i);
-		
-		if(GetClientTeam(i)==3)
-		{
-			Format(temp, sizeof(temp), "%s,%d,%d\n", clientname,clientfrags,clientdeaths);
-			WriteFileString(fout,temp,false);
+		if (IsClientConnected(i)){
+			GetClientName(i,clientname,12);
+			clientdeaths = GetClientDeaths(i);
+			clientfrags  = GetClientFrags(i);
+			
+			if(GetClientTeam(i)==3)
+			{
+				Format(temp, sizeof(temp), "%s,%d,%d\n",clientname,clientfrags,clientdeaths);
+				WriteFileString(fout,temp,false);
+			}
 		}
 	}
 	
 	// TERRORISTS {SCORE}
-	Format(temp, sizeof(temp), "%s %d\n", tstring, tscore);
+	Format(temp, sizeof(temp), "%s %d\n",tstring,terrscore);
 	WriteFileString(fout,temp,false);
-	
-	for(new i=1;i<=players;i++)
+	for(new i=1;i<=GetClientCount()+1;i++)
 	{
-		GetClientName(i,clientname,12);
-		clientdeaths = GetClientDeaths(i);
-		clientfrags  = GetClientFrags(i);
-		
-		if(GetClientTeam(i)==2)
-		{
-			Format(temp, sizeof(temp), "%s,%d,%d\n", clientname,clientfrags,clientdeaths);
-			WriteFileString(fout,temp,false);
+		if (IsClientConnected(i)){
+			GetClientName(i,clientname,12);
+			clientdeaths = GetClientDeaths(i);
+			clientfrags  = GetClientFrags(i);
+			
+			if(GetClientTeam(i)==2)
+			{
+				Format(temp, sizeof(temp), "%s,%d,%d\n",clientname,clientfrags,clientdeaths);
+				WriteFileString(fout,temp,false);
+			}
 		}
 	}
-	
 	FlushFile(fout);
+}
+
+public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadcast)
+{
+	new team = GetEventInt(event,"winner");
+
+	if(team==3) ctscore++;
+	if(team==2) tscore++;
+	
+	updateScores(ctscore, tscore);
+}
+
+public Action:Event_PlayerDeath(Handle:event, const String:name[], bool:dontBroadcast)
+{
+	updateScores(ctscore,tscore);
 }
