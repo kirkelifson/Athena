@@ -32,17 +32,17 @@ public updateScores(counterscore,terrscore){
 	// Init file handler for log
 	new Handle:fout=OpenFile(filename,"w");
 	
+	new clientdeaths,clientfrags;
+	new String:clientname[50];
+	
 	// COUNTERTERRORISTS {SCORE}
 	Format(temp, sizeof(temp), "%s %d\n",ctstring,counterscore);
 	WriteFileString(fout,temp,false);
 	
-	new clientdeaths,clientfrags;
-	new String:clientname[50];
-	
 	for(new i=1;i<=GetClientCount()+1;i++)
 	{
 		if (IsClientConnected(i)){
-			GetClientName(i,clientname,12);
+			GetClientName(i,clientname,49);
 			clientdeaths = GetClientDeaths(i);
 			clientfrags  = GetClientFrags(i);
 			
@@ -60,7 +60,7 @@ public updateScores(counterscore,terrscore){
 	for(new i=1;i<=GetClientCount()+1;i++)
 	{
 		if (IsClientConnected(i)){
-			GetClientName(i,clientname,12);
+			GetClientName(i,clientname,49);
 			clientdeaths = GetClientDeaths(i);
 			clientfrags  = GetClientFrags(i);
 			
