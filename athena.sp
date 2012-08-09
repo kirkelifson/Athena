@@ -24,7 +24,7 @@ public OnPluginStart()
 }
 
 public updateScores(counterscore,terrscore){
-	new String:filename[10] = "./match.log";
+	new String:filename[10] = "match.log";
 	
 	// Temporary string buffer used to format log strings
 	new String:temp[255]="";
@@ -38,10 +38,9 @@ public updateScores(counterscore,terrscore){
 	// COUNTERTERRORISTS {SCORE}
 	Format(temp, sizeof(temp), "%s %d\n",ctstring,counterscore);
 	WriteFileString(fout,temp,false);
-	
 	for(new i=1;i<=GetClientCount()+1;i++)
 	{
-		if (IsClientConnected(i)){
+		if (IsClientInGame(i)){
 			GetClientName(i,clientname,49);
 			clientdeaths = GetClientDeaths(i);
 			clientfrags  = GetClientFrags(i);
@@ -59,7 +58,7 @@ public updateScores(counterscore,terrscore){
 	WriteFileString(fout,temp,false);
 	for(new i=1;i<=GetClientCount()+1;i++)
 	{
-		if (IsClientConnected(i)){
+		if (IsClientInGame(i)){
 			GetClientName(i,clientname,49);
 			clientdeaths = GetClientDeaths(i);
 			clientfrags  = GetClientFrags(i);
@@ -79,7 +78,7 @@ public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadc
 	new team = GetEventInt(event,"winner");
 
 	if(team==3) ctscore++;
-	if(team==2) tscore++;
+	else if(team==2) tscore++;
 	
 	updateScores(ctscore, tscore);
 }
