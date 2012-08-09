@@ -9,7 +9,7 @@ new String:tstring[18]		= "TERRORIST";
 public Plugin:myinfo =
 {
 	name 		= "Athena",
-	author		= "Saigon",
+	author		= "Saigon and XTC",
 	description	= "Gamestate relaying to an online scoreboard",
 	version		= "2.1.0.0",
 	url 		= "https://github.com/sedley/Athena"
@@ -18,29 +18,29 @@ public Plugin:myinfo =
 public OnPluginStart()
 {
 	PrintToServer("%s Plugin loaded",debugstring);
-	HookEvent("round_end", Event_Round_End);
-	HookEvent("player_death", Event_PlayerDeath, EventHookMode_Pre);
+	HookEvent("round_end", Event_Round_End);				//Prepare to detect round end
+	HookEvent("player_death", Event_PlayerDeath, EventHookMode_Pre);        //Prepare to detect player death
 	PrintToServer("%s Round End + Player Death Hooked",debugstring);
 }
 
 public updateScores(counterscore,terrscore){
-	new String:filename[10] = "match.log";
+	new String:filename[10] = "match.log";					//Path to match.log in /cstrike
 	
 	// Temporary string buffer used to format log strings
 	new String:temp[255]="";
 	
 	// Init file handler for log
-	new Handle:fout=OpenFile(filename,"w");
+	new Handle:fout=OpenFile(filename,"w");					//Open match.log and earase contents
 	
 	new clientdeaths,clientfrags;
 	new String:clientname[50];
 	
 	// COUNTERTERRORISTS {SCORE}
-	Format(temp, sizeof(temp), "%s %d\n",ctstring,counterscore);
+	Format(temp, sizeof(temp), "%s %d\n",ctstring,counterscore);		//Report CT team score
 	WriteFileString(fout,temp,false);
 	for(new i=1;i<=GetClientCount()+1;i++)
 	{
-		if (IsClientInGame(i)){
+		if (IsClientInGame(i)){						//Report CT players scores
 			GetClientName(i,clientname,49);
 			clientdeaths = GetClientDeaths(i);
 			clientfrags  = GetClientFrags(i);
@@ -53,12 +53,12 @@ public updateScores(counterscore,terrscore){
 		}
 	}
 	
-	// TERRORISTS {SCORE}
+	// TERRORISTS {SCORE}							//Report T team score
 	Format(temp, sizeof(temp), "%s %d\n",tstring,terrscore);
 	WriteFileString(fout,temp,false);
 	for(new i=1;i<=GetClientCount()+1;i++)
 	{
-		if (IsClientInGame(i)){
+		if (IsClientInGame(i)){						//Report T players scores
 			GetClientName(i,clientname,49);
 			clientdeaths = GetClientDeaths(i);
 			clientfrags  = GetClientFrags(i);
@@ -73,7 +73,7 @@ public updateScores(counterscore,terrscore){
 	FlushFile(fout);
 }
 
-public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadcast)
+public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadcast)		//Round end hook
 {
 	new team = GetEventInt(event,"winner");
 
@@ -83,7 +83,7 @@ public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadc
 	updateScores(ctscore, tscore);
 }
 
-public Action:Event_PlayerDeath(Handle:event, const String:name[], bool:dontBroadcast)
+public Action:Event_PlayerDeath(Handle:event, const String:name[], bool:dontBroadcast)		//Player death hook
 {
 	updateScores(ctscore,tscore);
 }
