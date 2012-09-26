@@ -2,17 +2,17 @@
 #include <clients.inc>
 #include <sdktools_functions.inc>
 
-new String:debugstring[10]	= "#ATHENA#\t";
-new String:ctstring[18]			= "COUNTERTERRORIST";
-new String:tstring[18]			= "TERRORIST";
+new String:debugstring[10]  = "#ATHENA#\t";
+new String:ctstring[18]     = "COUNTERTERRORIST";
+new String:tstring[18]      = "TERRORIST";
 
 public Plugin:myinfo =
 {
-	name				= "Athena",
-	author			= "Saigon and xtc",
-	description	= "Gamestate relaying to an online scoreboard",
-	version			= "2.1.0.0",
-	url					= "https://github.com/sedley/Athena"
+	name        = "Athena",
+	author      = "Saigon and xtc",
+	description = "Gamestate relaying to an online scoreboard",
+	version     = "2.1.0.0",
+	url         = "https://github.com/sedley/Athena"
 }
 
 public OnPluginStart()
