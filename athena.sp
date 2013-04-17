@@ -18,7 +18,7 @@ public Plugin:myinfo =
 public OnPluginStart()
 {
     HookEvent("round_end", Event_Round_End);
-    HookEvent("player_death", Event_PlayerDeath);
+    HookEvent("player_death", Event_Player_Death);
 }
 
 public updateScores(counterscore,terrscore){
@@ -35,9 +35,9 @@ public updateScores(counterscore,terrscore){
     new String:clientname[50];
 
     // Print Counter-Terrorist score
-
     Format(temp, sizeof(temp), "%s %d\n", ctstring, counterscore);
     WriteFileString(fout, temp, false);
+
     for(new i = 1; i <= GetClientCount() + 1; i++)
     {
         // Print each player + score
@@ -55,9 +55,9 @@ public updateScores(counterscore,terrscore){
     }
 
     // Print Terrorist score
-
     Format(temp, sizeof(temp), "%s %d\n", tstring, terrscore);
     WriteFileString(fout, temp, false);
+
     for(new i = 1; i <= GetClientCount() + 1; i++)
     {
         // Print each player + score
@@ -73,7 +73,9 @@ public updateScores(counterscore,terrscore){
             }
         }
     }
+
     FlushFile(fout);
+    CloseHandle(fout);
 }
 
 public Action:Event_Round_End(Handle:event, const String:name[], bool:dontBroadcast)
