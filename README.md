@@ -18,7 +18,7 @@ Replace both variables with the name and location you wish to use. Sourcemod chr
 
 Athena was created by Sam Edley and Kirk Elifson.
 
-Sam: sedly@unallocatedmemory.net
+Sam: sedley@unallocatedmemory.net
 
 Kirk: kirk@parodybit.net
 
